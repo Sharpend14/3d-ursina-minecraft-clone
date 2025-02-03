@@ -12,9 +12,9 @@ around the player so you can interact with the world.
 
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
+from direct.actor.Actor import Actor
 
-
-app = Ursina()
+app = Ursina(borderless=False)
 
 #Define a Voxel class.
 #By setting the parent to scene and the model to 'cube' it becomes a 3d button.
@@ -32,14 +32,36 @@ class Voxel(Button):
             color=color.hsv(0, 0, random.uniform(0.7, 1.0)),
             highlight_color=color.blue,
         )
-class character(Entity):
+class Camera(FirstPersonController):
     def __init__(self):
         super().__init__(
-            model = load_model('cube'),
-            texture='white_cube',
-            color = color.red,
-            position = (-0, -3, -8)
+            gravity = 0.5,
+            jump_up_duration = 0.5,
+            jump_height = 2,
+            fall_after = 0.3,
+            speed = 9
         )
+    def update(self):
+        if self.y < -10:
+            self.position = (0, 0, 0)
+        if self.z > 26:
+         if self.y < 15:
+            self.position = (0, 30, 0)
+        if self.y > 10:
+         if self.y < 20:
+            self.position = (0, 30, 0)
+        super().update()
+        
+
+# class character(Entity):
+#     def __init__(self):
+#         super().__init__(
+#             model = load_model('cube'),
+#             texture='white_cube',
+#             color = color.red,
+#             position = (-0, -3, -8)     
+#             )
+        
 class plll(Button):
     def __init__(self, position=(0,0,20)):
         super().__init__(parent=scene,
@@ -53,12 +75,38 @@ class plll(Button):
 
 
 for z in range(8):
-    for x in range(8):
+    for x in range(3):
         voxel = plll(position=(x,0,z))
 
 for z in range(4):
-    for x in range(8):
+    for x in range(3):
         voxel = plll(position=(x,0,z+12))
+        
+for z in range(4):
+    for x in range(3):
+        voxel = plll(position=(x,0,z+20))
+        
+for z in range(4):
+    for x in range(3):
+        voxel = plll(position=(x,1,z+26))
+        
+        
+for z in range(8):
+    for x in range(3):
+        voxel = plll(position=(x,30,z))
+
+for z in range(4):
+    for x in range(3):
+        voxel = plll(position=(x,30,z+12))
+        
+for z in range(4):
+    for x in range(3):
+        voxel = plll(position=(x,30,z+20))
+        
+for z in range(4):
+    for x in range(3):
+        voxel = plll(position=(x,30,z+26))
+
         
         
 def input(key):
@@ -72,23 +120,29 @@ def input(key):
     if key == 'escape':
         #window.exit_button.visible = True
         print("bye")
-        app.application.quit()
+        application.quit()
         #quit()
+        
+# def update():
+#     print(player.y)
+#     if player.y<-10:
+#         player.y=20
 
 print("Hello")
 
-cam = FirstPersonController(gravity = 0.15,
-                            jump_up_duration = 3,
-                            jump_height = 3,
-                            fall_after = 1)
+cam = Camera()
 
-player = Entity(model='cube',
-            texture='white_cube',
-            color=color.hsv(1, 1, random.uniform(0.7, 1.0)),
-                origin = (0, -0.5, 0),
-                parent = cam)
-camera.z = -5
-camera.y = -0.5
+# player = Entity(model='cube',
+#             texture='white_cube',
+#             color=color.hsv(60, 60, random.uniform(0.7, 1.0)),
+#                 origin = (0, -0.5, 0),
+#                 parent = cam)
+# actor = Actor("gooddude.gltf")
+# actor.reparentTo(cam)
+
+
+camera.z = 0
+camera.y = 0
 
 def update():
     if held_keys['right arrow']:
