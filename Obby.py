@@ -132,12 +132,12 @@ print("Hello")
 
 cam = Camera()
 
-# player = Entity(model='cube',
-#             texture='white_cube',
-#             color=color.hsv(60, 60, random.uniform(0.7, 1.0)),
-#                 origin = (0, -0.5, 0),
-#                 parent = cam)
-# actor = Actor("gooddude.gltf")
+player = Entity(model='cube',
+            texture='white_cube',
+            color=color.hsv(60, 60, random.uniform(0.7, 1.0)),
+                origin = (0, -0.5, 0),
+                parent = cam)
+# actor = Actor("sandman.geo.gltf")
 # actor.reparentTo(cam)
 
 
